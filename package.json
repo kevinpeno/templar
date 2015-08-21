@@ -1,0 +1,28 @@
+{
+  "name": "templar",
+  "version": "0.1.0",
+  "description": "javascript template system",
+  "main": "build/templar.js",
+  "scripts": {
+    "build": "npm run build:clean && npm run build:es6",
+    "build:clean": "rimraf build && mkdir build",
+    "build:es6": "babel src --out-file build/templar.js --source-maps inline",
+    "test": "mocha --compilers js:babel/register",
+    "prepublish": "npm run build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kevinpeno/templar.git"
+  },
+  "author": "Kevin Peno <kevinpeno@gmail.com>",
+  "license": "Unlicense",
+  "bugs": {
+    "url": "https://github.com/kevinpeno/templar/issues"
+  },
+  "homepage": "https://github.com/kevinpeno/templar#readme",
+  "devDependencies": {
+    "babel": "^5.8.21",
+    "mocha": "^2.2.5",
+    "rimraf": "^2.4.2"
+  }
+}
