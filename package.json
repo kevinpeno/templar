@@ -2,7 +2,7 @@
   "name": "templar",
   "version": "0.1.0",
   "description": "javascript template system",
-  "main": "build/templar.js",
+  "main": "src/templar.js",
   "scripts": {
     "build": "npm run build:clean && npm run build:es6",
     "build:clean": "rimraf build && mkdir build",
