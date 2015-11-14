@@ -1,4 +1,4 @@
-export default function Templar(dom, tmpl, context) {
+export default function Templar(dom, tmpl, context={}) {
 	let node = dom.importNode(tmpl.content, true)
 	let dataPoints = [...node.querySelectorAll('[data-bind]')]
 
