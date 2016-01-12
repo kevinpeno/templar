@@ -1,35 +1,62 @@
-export default function Templar(dom, tmpl, context={}) {
-	let node = dom.importNode(tmpl.content, true)
-	let dataPoints = [...node.querySelectorAll('[data-bind]')]
+module.exports = {
+	getElementBindings: getElementBindings,
+	isAttribute: isAttribute,
+	getElementsWithBindings: getElementsWithBindings,
+	transform: transform
+}
 
-	function bindToElem(elem) {
-		let binds = [...elem.dataset.bind.split(" ")]
-		let attrReg = /^\[(.+)\]\:(.+)$/i
+var bindRegex = /^(?:(?:\[(.+)\])|(text)\#)?(.+)$/i
 
-		binds.forEach((v) => {
-			let matches = v.match(attrReg)
+function getElementBindings(elem){
+	return elem.dataset.bind.split(" ")
+}
 
-			// Attr binding?
-			if(matches) {
-				if( elem.hasAttribute(matches[1]) ) {
-					let data = getData(matches[2], context)
-					elem.setAttribute(matches[1], data)
-				}
-			}
-			else {
-				elem.textContent = getData(v, context)
-			}
-		})
-	}
+function isAttribute(binding) {
+	return !!getAttributeFromBind(binding)
+}
 
-	function getData(name, context) {
-		if( context.hasOwnProperty(name) )
-			return context[name]
-		else
-			return ""
-	}
+function getElementsWithBindings(tmpl){
+	return tmpl.querySelectorAll('[data-bind]')
+}
 
-	dataPoints.forEach(bindToElem)
+function getAttributeFromBind(bind) {
+	return bind.match(bindRegex)[1]
+}
 
-	return node
+function getContextNameFromBind(bind) {
+	return bind.match(bindRegex)[3]
+}
+
+function getDataFromContext(name, context) {
+	return context.hasOwnProperty(name) ? context[name] : ""
+}
+
+function bindElementToContext(elem, context) {
+	var binds = getElementBindings(elem)
+
+	binds.forEach(function(bind) {
+		var contextName = getContextNameFromBind(bind)
+		var data = getDataFromContext(contextName, context)
+
+		if(isAttribute(bind)) {
+			var attr = getAttributeFromBind(bind)
+
+			elem.setAttribute(attr, data)
+		}
+		else {
+			elem.textContent = data
+		}
+	})
+}
+
+
+function transform(tmpl, context) {
+	var cleanTmpl = tmpl.cloneNode(true)
+	var boundElem = getElementsWithBindings(cleanTmpl)
+
+	Array.prototype.forEach.call(boundElem, function(elem){
+		bindElementToContext(elem, context)
+	})
+
+	return cleanTmpl
 }

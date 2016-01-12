@@ -1,14 +1,11 @@
 {
   "name": "templar",
-  "version": "0.1.0",
-  "description": "javascript template system",
-  "main": "src/templar.js",
+  "version": "1.0.0",
+  "description": "A minimalistic javascript templating system for use in conjunction with HTML templates",
+  "main": "build/templar.js",
   "scripts": {
-    "build": "npm run build:clean && npm run build:es6",
-    "build:clean": "rimraf build && mkdir build",
-    "build:es6": "babel src --out-file build/templar.js --source-maps inline",
-    "test": "mocha --compilers js:babel/register",
-    "prepublish": "npm run build"
+    "start": "mochify --watch -R spec",
+    "test": "mochify && mochify --cover"
   },
   "repository": {
     "type": "git",
@@ -21,8 +18,7 @@
   },
   "homepage": "https://github.com/kevinpeno/templar#readme",
   "devDependencies": {
-    "babel": "^5.8.21",
-    "mocha": "^2.2.5",
-    "rimraf": "^2.4.2"
+    "mochify": "2.14.3",
+    "unexpected": "10.5.1"
   }
 }
