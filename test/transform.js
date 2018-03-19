@@ -11,7 +11,7 @@ describe("templar", function() {
 	})
 
 	it("can determine if the binding is an attribute", function() {
-		var testEl = utils.createTestElement(document, "span", "[attr]#test")
+		var testEl = utils.createTestElement(document, "span", "[attr]test")
 		var binds = templar.getElementBindings(testEl.firstChild)
 		var toTest = templar.isAttribute(binds[0])
 
@@ -31,15 +31,25 @@ describe("templar", function() {
 	})
 
 	it("can return a document fragment with context applied to bindings", function() {
-		var testEl = utils.createTestElement(document, "span", "test")
+		var testEl = utils.createTestElement(document, "span", "test [testAttr]testAttr")
 		var context = {
-			test: "test"
+			"test": "test",
+			"testAttr": "testAttr"
 		}
 
 		var result = templar.transform(testEl, context)
-		var toTest = result.firstChild.innerHTML
+		var toTest = result.firstChild
 
-		expect(toTest, 'to equal', context.test)
+		expect(
+			toTest.innerHTML,
+			'to equal',
+			context.test
+		)
+		expect(
+			toTest.getAttribute("testAttr"),
+			'to equal',
+			context.testAttr
+		)
 	})
 
 	it("can return a function that accepts data context as an argument")

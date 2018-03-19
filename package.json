@@ -1,11 +1,12 @@
 {
-  "name": "templar",
+  "name": "@kevinpeno/templar",
   "version": "1.0.0",
   "description": "A minimalistic javascript templating system for use in conjunction with HTML templates",
   "main": "src/templar.js",
   "scripts": {
     "start": "mochify --watch -R spec",
-    "test": "mochify && mochify --cover"
+		"test": "mochify --cover",
+		"test:raw": "mochify"
   },
   "repository": {
     "type": "git",

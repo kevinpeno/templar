@@ -39,9 +39,10 @@ function bindElementToContext(elem, context) {
 		var data = getDataFromContext(contextName, context)
 
 		if(isAttribute(bind)) {
-			var attr = getAttributeFromBind(bind)
-
-			elem.setAttribute(attr, data)
+			elem.setAttribute(
+				getAttributeFromBind(bind),
+				data
+			)
 		}
 		else {
 			elem.textContent = data
